@@ -88,8 +88,6 @@ DB_PASSWORD=your-railway-password
 DB_NAME=railway
 DB_PORT=your-port-number
 
-# Next.js Configuration
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
 ### 4. Database Setup
@@ -274,7 +272,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
+  port: process.env.DB_PORT,
 });
 
 export default db;
@@ -287,7 +285,7 @@ DB_HOST=your-public-host
 DB_USER=root
 DB_PASSWORD=your-password
 DB_NAME=railway
-DB_PORT=3306
+DB_PORT=your-port-number
 
 ```
 
