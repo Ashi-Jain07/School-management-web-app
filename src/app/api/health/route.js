@@ -1,4 +1,5 @@
-import { pool } from "../../../lib/db";
+// import { pool } from "../../../lib/db";
+import { pool } from "../../../../lib/db.js";
 import { NextResponse } from "next/server";
 
 export async function GET() {
