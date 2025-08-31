@@ -54,7 +54,7 @@
 | **Icons** | Lucide React | Beautiful, consistent icons |
 | **Backend** | Next.js API Routes | Serverless API endpoints |
 | **Database** | MySQL (Railway) | Cloud-hosted relational database |
-| **File Upload** | Multer | Secure file handling |
+| **File Upload** | Multer | Secure file handling | Cloudinary
 | **Deployment** | Railway | Cloud platform deployment |
 
 ---
@@ -81,12 +81,14 @@ npm install
 Create a `.env.local` file in the root directory:
 
 ```env
-# Database Configuration (Railway MySQL)
 DB_HOST=your-railway-host
 DB_USER=root
 DB_PASSWORD=your-railway-password
 DB_NAME=railway
 DB_PORT=your-port-number
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 
 ```
 
@@ -160,7 +162,7 @@ schools (
     state TEXT NOT NULL,          -- State/Province
     contact BIGINT NOT NULL,      -- 10-digit phone number
     email_id TEXT NOT NULL,       -- Email address
-    image TEXT,                   -- Image file path
+    image TEXT,                   -- Cloudinary url for image
     created_at TIMESTAMP,         -- Record creation time
 )
 ```
@@ -203,7 +205,7 @@ schools (
     "state": "IL",
     "contact": "5551234567",
     "email_id": "info@example.edu",
-    "image": "/schoolImages/school-1.jpg"
+    "image": "https://res.cloudinary.com/wdqew2/image/upload/v1564363/schoolImages/z8te6gelo7ww.png"
   }
 ]
 ```
@@ -286,6 +288,11 @@ DB_USER=root
 DB_PASSWORD=your-password
 DB_NAME=railway
 DB_PORT=your-port-number
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 
 ```
 
