@@ -1,34 +1,37 @@
 import { pool } from "../../../../lib/db.js";
 import { NextResponse } from "next/server";
-import path from "path";
-import fs from "fs/promises";
+import cloudinary from "cloudinary";
 
-async function saveFile(file) {
+//Configure Cloudinary
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+async function uploadToCloudinary(file) {
   if (!(file instanceof File)) {
     throw new Error("Uploaded file is invalid");
   }
 
-  try {
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
-    // Create directory if it doesn't exist
-    const uploadDir = path.join(process.cwd(), "public", "schoolImages");
-    await fs.mkdir(uploadDir, { recursive: true });
+  // Convert buffer to base64
+  const base64 = buffer.toString("base64");
+  const dataUri = `data:${file.type};base64,${base64}`;
 
-    const filePath = `schoolImages/${Date.now()}-${file.name}`;
-    const fullPath = path.join(process.cwd(), "public", filePath);
+  // Upload to Cloudinary
+  const uploadResponse = await cloudinary.v2.uploader.upload(dataUri, {
+    folder: "schoolImages",
+    resource_type: "image",
+  });
 
-    await fs.writeFile(fullPath, buffer);
-    return `/${filePath}`;
-  } catch (error) {
-    throw error;
-  }
+  return uploadResponse.secure_url;
 }
 
 export async function POST(req) {
   try {
-
     const formData = await req.formData();
 
     const name = formData.get("name");
@@ -43,14 +46,13 @@ export async function POST(req) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
-    if (!(file instanceof File)) {
-      return NextResponse.json({ error: "Invalid file upload" }, { status: 400 });
-    }
+    // Upload image to Cloudinary
+    const imageUrl = await uploadToCloudinary(file);
 
-    const imagePath = await saveFile(file);
+    // Save only Cloudinary URL in DB
     const [result] = await pool.query(
       "INSERT INTO schools (name, address, city, state, contact, image, email_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [name, address, city, state, contact, imagePath, email_id]
+      [name, address, city, state, contact, imageUrl, email_id]
     );
 
     return NextResponse.json({ message: "School added successfully!", id: result.insertId });
