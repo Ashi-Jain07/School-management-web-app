@@ -45,6 +45,14 @@ export default function ShowSchools() {
     setSelectedSchool(null);
   };
 
+  // Utility to resolve image URL
+  const getImageUrl = (image) => {
+    if (!image) return "/api/placeholder/400/300";
+    if (image.startsWith("http")) return image;
+    return image.startsWith("/") ? image : `/schoolImages/${image}`;
+  };
+
+
   if (selectedSchool) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -67,7 +75,7 @@ export default function ShowSchools() {
             {/* Hero Section */}
             <div className="relative h-80">
               <img
-                src={selectedSchool.image || "/api/placeholder/800/320"}
+                src={getImageUrl(selectedSchool.image)}
                 alt={selectedSchool.name}
                 className="w-full h-full object-cover"
               />
@@ -250,7 +258,7 @@ export default function ShowSchools() {
                 {/* School Image */}
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={school.image || "/api/placeholder/400/300"}
+                    src={getImageUrl(school.image)}
                     alt={school.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
@@ -274,20 +282,6 @@ export default function ShowSchools() {
                         <p>{school.city}, {school.state}</p>
                       </div>
                     </div>
-
-                    {school.contact && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Phone size={16} className="text-green-500" />
-                        <span className="text-sm">{school.contact}</span>
-                      </div>
-                    )}
-
-                    {school.email_id && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Mail size={16} className="text-purple-500" />
-                        <span className="text-sm">{school.email_id}</span>
-                      </div>
-                    )}
                   </div>
 
                   {/* View Details Button */}

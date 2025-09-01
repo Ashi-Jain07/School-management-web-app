@@ -32,7 +32,7 @@
 
 ### 📝 **Robust School Management**
 - **Form Validation**: Real-time validation using React Hook Form
-- **Image Upload**: Secure file handling and storage
+- **Image Upload**: Image upload with Cloudinary storage
 - **Error Handling**: Comprehensive error states and user feedback
 - **Success States**: Clear confirmation and automatic navigation
 
@@ -54,8 +54,22 @@
 | **Icons** | Lucide React | Beautiful, consistent icons |
 | **Backend** | Next.js API Routes | Serverless API endpoints |
 | **Database** | MySQL (Railway) | Cloud-hosted relational database |
-| **File Upload** | Multer | Secure file handling | Cloudinary
+| **File Upload** | Multer + Cloudinary | Secure file handling | 
 | **Deployment** | Railway | Cloud platform deployment |
+
+---
+
+## 🖼️ Image Storage
+
+### Local Development
+
+- Images are uploaded and stored inside a schoolImages folder at the project root.
+- This satisfies the assignment requirement of using a local folder for image storage.
+
+### Production Deployment
+
+- Since Railway platform don’t support persistent local storage, Cloudinary is used in production.
+- Uploaded images are stored on Cloudinary, and only the image URL is saved in the database
 
 ---
 
@@ -64,6 +78,7 @@
 ### Prerequisites
 - Node.js 18+ installed
 - Railway account for database hosting
+- Cloudinary account (for image storage)
 - Git for version control
 
 ### 1. Clone Repository
@@ -267,18 +282,28 @@ my-schools-app/
 
 ### Database Configuration (`lib/db.js`)
 ```javascript
-import mysql from 'mysql2/promise';
+import mysql from "mysql2/promise";
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
-});
+let pool;
 
-export default db;
+if (!global._pool) {
+  global._pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  });
+}
+
+pool = global._pool;
+
+export { pool };
 ```
+---
 
 ### Environment Variables
 ```env
