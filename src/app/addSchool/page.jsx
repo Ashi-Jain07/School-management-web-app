@@ -2,7 +2,8 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { School, MapPin, Phone, Mail, Upload, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { School, MapPin, Phone, Mail, Upload, CheckCircle, AlertCircle, Loader2, House } from "lucide-react";
+import Link from "next/link";
 
 export default function AddSchool() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -98,7 +99,10 @@ export default function AddSchool() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen relative bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+      <Link href="/" title="Go Back To Home" className="absolute top-2 left-2 m-4 inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-2xl mb-6 animate-bounce-subtle">
+        <House  className="text-white" size={28} />
+      </Link>
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">

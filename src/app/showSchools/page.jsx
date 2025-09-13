@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, MapPin, Phone, Mail, Globe, ArrowLeft, ExternalLink } from "lucide-react";
+import { Search, MapPin, Phone, Mail, Globe, ArrowLeft, ExternalLink, House } from "lucide-react";
+import Link from "next/link";
 
 export default function ShowSchools() {
   const [schools, setSchools] = useState([]);
@@ -194,7 +195,10 @@ export default function ShowSchools() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen relative bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <Link href="/" title="Go Back To Home" className="absolute inline-flex m-4 items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-2xl mb-6 animate-bounce-subtle">
+        <House  className="text-white" size={28} />
+      </Link>
       {/* Header Section */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-6 py-8">

@@ -2,7 +2,8 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Loader2 } from "lucide-react";
+import { Mail, Loader2, House } from "lucide-react";
+import Link from "next/link";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -37,7 +38,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-white to-blue-100 p-4">
+    <div className="min-h-screen relative flex items-center justify-center bg-gradient-to-br from-purple-100 via-white to-blue-100 p-4">
+      <Link href="/" title="Go Back To Home" className="absolute top-2 left-2 m-4 inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-2xl mb-6 animate-bounce-subtle">
+        <House  className="text-white" size={28} />
+      </Link>
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
 
