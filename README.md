@@ -427,6 +427,7 @@ my-schools-app/
 │   │           └── route.js   # Logout endpoint
 │   ├── globals.css            # Global styles
 │   ├── layout.js              # Root layout
+│   ├── VerifyOtpForm.jsx      # Verify Otp Component 
 │   └── page.js                # Homepage
 ├── lib/
 │   ├── auth.js                # JWT token utilities
